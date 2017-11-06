@@ -1,7 +1,7 @@
 Image Search Abstraction Layer - Free Code Camp
 =========================
 <strong>Objective</strong>: Build a full stack JavaScript app that allows you to search for images like 
-https://cryptic-ridge-9197.herokuapp.com/api/imagesearch/lolcats%20funny?offset=10"
+https://cryptic-ridge-9197.herokuapp.com/api/imagesearch/lolcats%20funny?offset=10
 and browse recent search queries like
 https://cryptic-ridge-9197.herokuapp.com/api/latest/imagesearch/
 
