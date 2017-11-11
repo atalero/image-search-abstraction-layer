@@ -1,14 +1,16 @@
 const  RESULTS_PER_PAGE = 10;
-var key = 'AIzaSyAgBbIHBOp0rJMSUceGAWGNwbXNA7d843g';
-var cx = '004403419220481870735:pbvnson68ks';
+var key = process.env.API_KEY;//key for google api request
+var cx = process.env.CX;//personal search engine created through my Google account
 var request = require('request');
 var mongoose = require('mongoose');
 var express = require('express');
 var app = express();
-var searchTerm = require('./models/searchTerm');
+var searchTerm = require('./models/searchTerm');//require search term model to save all previous searches in MongoDB
 app.use(express.static('public'));
-mongoose.connect('mongodb://atalero:shortener@ds251245.mlab.com:51245/image-search-layer');
+mongoose.connect('mongodb://atalero:shortener@ds251245.mlab.com:51245/image-search-layer');//connect to my mongo
+//again, this would normally be secured otherwise (will possibly fix this soon, otherwise anyone can hack my database :S)
 
+//if recent searches is called, they are all queried for from MongoDB and displayed to the user
 app.get('/recentsearches', (req,res,next) => {
   searchTerm.find({}, (err, data) => {
     res.json(data);
@@ -24,8 +26,8 @@ app.get('/imagesearch/:val', (req,res,next)=>{
   var {val} = req.params;
   var url = 'https://www.googleapis.com/customsearch/v1?q='+val+'&key='+key+'&cx='+cx+'&searchType=image&num=10'; 
   
-  if (req.query.offset !== undefined){
-    var offset = (parseInt(req.query.offset) *10).toString();
+  if (req.query.page !== undefined && req.query.page !== '1'){ 
+    var offset = ((parseInt(req.query.page)-1)*10).toString();
     url = url +'&start='+ offset;
     console.log('this is the offset ' + offset);
   }
